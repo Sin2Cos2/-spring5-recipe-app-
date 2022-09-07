@@ -53,6 +53,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Recipe saveRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
     public RecipeCommand findCommandById(Long l) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(l);
         if (recipeOptional.isEmpty())

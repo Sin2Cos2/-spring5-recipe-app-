@@ -16,11 +16,35 @@
             color: white;
         }
 
+        .link {
+            color: cornflowerblue;
+        }
+
+        .link:hover {
+            color: #5458a7;
+        }
+
         .card-header {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .image {
+            display: flex;
+            margin-bottom: 1rem;
+            justify-content: space-between;
+        }
+        .img-src {
+            flex: 1;
+        }
+        .category {
+            flex: 1;
+            display: flex;
+        }
+        .col-md-3, .col-md-9 {
+            flex: 1;
         }
     </style>
 </head>
@@ -32,21 +56,35 @@
                 <div class="card card-primary border border-primary" style="margin: 20px 0">
                     <div class="card-header bg-primary text-light">
                         <h7 class="card-title" th:text="${recipe.description}">Recipe Description Here!</h7>
-                        <a href="#" th:href="@{'/'}">
-                            <button type="button" class="btn btn-primary">
-                                Back
-                            </button>
-                        </a>
+                        <div>
+                            <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">
+                                <button type="button" class="btn btn-primary">
+                                    Edit
+                                </button>
+                            </a>
+                            <a href="#" th:href="@{'/'}">
+                                <button type="button" class="btn btn-primary">
+                                    Back
+                                </button>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-md-3">
-                                <h7>Categories:</h7>
+                        <div class="image">
+                            <div class="img-src">
+                                <img src="../../static/images/guacamole400x400WithX.jpg"
+                                     th:src="@{'/recipe/' + ${recipe.id} + '/recipeImage'}"
+                                     width="150" height="150">
                             </div>
-                            <div class="col-md-9">
-                                <ul th:each="category : ${recipe.categories}">
-                                    <li th:text="${category.categoryName}">cat one</li>
-                                </ul>
+                            <div class="category row justify-content-center">
+                                <div class="col-md-3">
+                                    <h7>Categories:</h7>
+                                </div>
+                                <div class="col-md-9">
+                                    <ul th:each="category : ${recipe.categories}">
+                                        <li th:text="${category.categoryName}">cat one</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -60,7 +98,9 @@
                                 <h7>Difficulty:</h7>
                             </div>
                             <div class="col-md-3">
-                                <p th:text="${recipe.difficulty}">Easy</p>
+                                <p th:text="${recipe.difficulty.name().substring(0,1)} + ${recipe.difficulty.name().substring(1).toLowerCase()}">
+                                    Easy
+                                </p>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -88,7 +128,7 @@
                                 <h7>URL:</h7>
                             </div>
                             <div class="col-md-3">
-                                <p th:text="${recipe.url}">http://www.example.com</p>
+                                <a class="link" href="#" th:href="${recipe.url}"><p>View page</p></a>
                             </div>
                         </div>
                     </div>

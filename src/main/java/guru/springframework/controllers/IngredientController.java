@@ -1,4 +1,4 @@
-package guru.springframework.Controllers;
+package guru.springframework.controllers;
 
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.commands.RecipeCommand;
@@ -20,7 +20,7 @@ public class IngredientController {
     private final IngredientService ingredientService;
     private final UnitOfMeasureService uomService;
 
-    @RequestMapping("/recipe/{id}/ingredients")
+    @GetMapping("/recipe/{id}/ingredients")
     public String getIngredients(@PathVariable String id, Model model) {
         Recipe recipe = recipeService.findById(Long.parseLong(id));
         model.addAttribute("recipe", recipe);

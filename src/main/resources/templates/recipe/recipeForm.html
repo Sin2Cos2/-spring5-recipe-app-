@@ -28,25 +28,49 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="justify-content-center">
         <div class="col-md-6 offset-md-3">
-            <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
+            <form th:object="${recipe}" th:action="${recipe['new']} ? @{/recipe/new} : @{/recipe/}" method="post">
+                <div th:if="${#fields.hasErrors('*')}">
+                    <p>Please Correct Errors Below</p>
+                </div>
+
                 <input type="hidden" th:field="*{id}"/>
-<!--                TODO: ВАЖНО. При обновлении объекта, создается еще один notes. Избегаем этого запоминая id-->
+                <input type="hidden" th:field="*{image}">
+                <!--                TODO: ВАЖНО. При обновлении объекта, создается еще один notes. Избегаем этого запоминая id-->
                 <input type="hidden" th:field="*{notes.id}">
                 <div class="panel-group">
                     <div class="card mb-3">
                         <div class="card-header bg-primary text-light mb-3">
-                            <h2 class="card-title">Edit Recipe Information</h2>
-                            <a href="#" th:href="@{'/'}">
-                                <button type="button" class="btn btn-primary">
-                                    Back
-                                </button>
-                            </a>
+                            <h2 class="card-title"
+                                th:with="text=${recipe['new']} ? 'Create New Recipe' : 'Edit Recipe Information'"
+                                th:text="${text}">Edit
+                                Recipe Information</h2>
+                            <div>
+                                <th:block th:if="${!recipe['new']}">
+                                    <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/image' }">
+                                        <button type="button" class="btn btn-primary">
+                                            Upload Image
+                                        </button>
+                                    </a>
+                                </th:block>
+                                <a href="#" th:href="@{'/'}">
+                                    <button type="button" class="btn btn-primary">
+                                        Back
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row" style="margin-top: -1rem">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group"
+                                     th:class="${#fields.hasErrors('*')} ? 'col-md-3 form-group text-danger' : 'col-md-3 form-group'">
                                     <label><b>Recipe Description:</b></label>
-                                    <input type="text" class="form-control" th:field="*{description}"/>
+                                    <input type="text" class="form-control" th:field="*{description}"
+                                           th:errorclass="is-invalid"/>
+                                    <span class="help-block" th:if="${#fields.hasErrors('description')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
@@ -79,10 +103,12 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label><b>Difficulty:</b></label>
-                                    <select class="form-control">
-                                        <option>Easy</option>
-                                        <option>Medium</option>
-                                        <option>Hard</option>
+                                    <select class="form-control" th:field="*{difficulty}">
+                                        <option th:each="difficultyValue : ${T(guru.springframework.domain.Difficulty).values()}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name().substring(0, 1)} + ${difficultyValue.name().substring(1).toLowerCase()}">
+                                            val
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -105,11 +131,13 @@
                     <div class="card mb-3">
                         <div class="card-header bg-primary text-light mb-3">
                             <h2 class="card-title">Ingredients</h2>
-                            <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}">
-                                <button type="button" class="btn btn-primary">
-                                    Open
-                                </button>
-                            </a>
+                            <th:block th:if="${!recipe['new']}">
+                                <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}">
+                                    <button type="button" class="btn btn-primary">
+                                        Open
+                                    </button>
+                                </a>
+                            </th:block>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -152,7 +180,9 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary"
-                            style="margin-bottom: 3rem">Submit
+                            style="margin-bottom: 3rem"
+                            th:with="text=${recipe['new']} ? 'Next Step' : 'Submit'"
+                            th:text="${text}">Submit
                     </button>
                 </div>
             </form>
