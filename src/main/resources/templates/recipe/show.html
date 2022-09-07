@@ -36,13 +36,16 @@
             margin-bottom: 1rem;
             justify-content: space-between;
         }
+
         .img-src {
             flex: 1;
         }
+
         .category {
             flex: 1;
             display: flex;
         }
+
         .col-md-3, .col-md-9 {
             flex: 1;
         }
@@ -145,8 +148,9 @@
                     <div class="card-body">
                         <div class="row justify-content-center">
                             <div class="col-md-12">
-                                <ul th:each="ingredient : ${recipe.ingredients}">
-                                    <li th:text="${ingredient.amount} + ' ' +
+                                <ul>
+                                    <li th:each="ingredient : ${recipe.ingredients}"
+                                        th:text="${ingredient.amount} + ' ' +
                                     ${ingredient.unitOfMeasure.unitOfMeasure} + ' - ' + ${ingredient.description}">
                                         1 Cup of milk
                                     </li>
