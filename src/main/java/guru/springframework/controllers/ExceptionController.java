@@ -19,7 +19,7 @@ public class ExceptionController {
 
     public ModelAndView genericHandler4xxException(Exception exception, String httpStatus) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("recipe/4xxError");
+        mav.setViewName("4xxError");
         mav.addObject("exception", exception);
         mav.addObject("httpStatus", httpStatus);
 

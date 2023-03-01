@@ -22,14 +22,17 @@ public class RecipeCommand {
 
     @Min(1)
     @Max(999)
+    @NotNull
     private Integer prepTime;
 
     @Min(1)
     @Max(999)
+    @NotNull
     private Integer cookTime;
 
     @Min(1)
     @Max(100)
+    @NotNull(message = "This field can not be empty")
     private Integer servings;
     private String source;
 

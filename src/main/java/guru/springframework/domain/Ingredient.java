@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Ingredient {
-
+//TODO: Implement validation for ingredients
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
